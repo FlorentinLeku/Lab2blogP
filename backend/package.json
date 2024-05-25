@@ -1,0 +1,16 @@
+{
+  "name": "blog-project",
+  "version": "1.0.0",
+  "description": "This is the api for the backend",
+  "main": "server.js",
+  "scripts": {
+    
+    "start": "node server.js"
+  },
+  "keywords": ["api","mongoose"],
+  "author": "F-and-D",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.19.2"
+  }
+}
