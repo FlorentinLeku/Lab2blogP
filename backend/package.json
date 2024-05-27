@@ -4,13 +4,19 @@
   "description": "This is the api for the backend",
   "main": "server.js",
   "scripts": {
-    
     "start": "node server.js"
   },
-  "keywords": ["api","mongoose"],
+  "keywords": [
+    "api",
+    "mongoose"
+  ],
   "author": "F-and-D",
   "license": "ISC",
   "dependencies": {
-    "express": "^4.19.2"
+    "dotenv": "^16.4.5",
+    "express": "^4.19.2",
+    "mongoose": "^8.4.0",
+    "node": "^18.20.3",
+    "prompt-sync": "^4.2.0"
   }
 }
