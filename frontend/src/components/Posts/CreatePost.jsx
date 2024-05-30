@@ -1,8 +1,15 @@
 import React from 'react';
 import { useFormik, validateYupSchema } from "formik";
 import * as Yup from 'yup';
+import { useMutation } from '@tanstack/react-query';
+import { createPostAPI } from '../../APIServices/posts/postAPI';
 
 const CreatePost = () => {
+    //post mutation
+    const postMutation = useMutation({
+        mutationKey:['create-post'],
+        mutationFn: createPostAPI
+    })
     const formik = useFormik({
         //initial data
         initialValues:{
@@ -16,9 +23,14 @@ const CreatePost = () => {
         }),
         //submit
         onSubmit: (values) =>{
-            console.log(values);
+            const postData = {
+                title: values.title,
+                description: values.description,
+            };
+            postMutation.mutate(postData);
         },
     });
+    console.log("mutation", postMutation);
   return (
     <div>
         <form onSubmit={formik.handleSubmit}>
@@ -27,8 +39,8 @@ const CreatePost = () => {
             />
             {/*display error message */}
             {formik.touched.title && formik.errors.title && (
-                <span>{formik.errors.title}</span>
-            )}
+          <span style={{ color: "red" }}>{formik.errors.title}</span>
+        )}
             <input type="text" name="description" placeholder="Enter description" 
             {   ...formik.getFieldProps('description')}
             />
