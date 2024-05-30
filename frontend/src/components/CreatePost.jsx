@@ -25,6 +25,10 @@ const CreatePost = () => {
             <input type="text" name="title" placeholder="Enter Title" 
             {   ...formik.getFieldProps('title')}
             />
+            {/*display error message */}
+            {formik.touched.title && formik.errors.title && (
+                <span>{formik.errors.title}</span>
+            )}
             <input type="text" name="description" placeholder="Enter description" 
             {   ...formik.getFieldProps('description')}
             />
