@@ -2,7 +2,7 @@ import React from 'react';
 import { useFormik, validateYupSchema } from "formik";
 import * as Yup from 'yup';
 import { useMutation } from '@tanstack/react-query';
-import { createPostAPI } from '../../APIServices/posts/postAPI';
+import { createPostAPI } from '../../APIServices/posts/postsAPI';
 
 const CreatePost = () => {
     //post mutation
@@ -31,8 +31,19 @@ const CreatePost = () => {
         },
     });
     console.log("mutation", postMutation);
+    //get loading state
+    const isLoading = postMutation.isPending;
+    //isErr
+    const isError = postMutation.isError;
+    //success
+    const isSuccess = postMutation.isSuccess;
+    //Error
+    const error = postMutation.error;
   return (
     <div>
+        {isLoading && <p>Loading...</p>}
+        {isSuccess && <p>Post created successfully</p>}
+        {isError && <p>{error.message}</p>}
         <form onSubmit={formik.handleSubmit}>
             <input type="text" name="title" placeholder="Enter Title" 
             {   ...formik.getFieldProps('title')}
