@@ -1,16 +1,25 @@
-import { useState } from 'react'
-import CreatePost from './components/Posts/CreatePost'
-import PostsList from './components/PostsList'
+import CreatePost from "./components/Posts/CreatePost";
+import { BrowserRouter, Route, Routes } from "react-router-dom";
+import PostsList from "./components/PostsList";
+import PublicNavbar from "./components/Navbar/PublicNavbar";
 
 
 function App() {
-  const [count, setCount] = useState(0);
   return (
-    <div>
-      <CreatePost/>
-      <PostsList/>
-    </div>
-  )
+    <BrowserRouter>
+      {/* Navbar */}
+      <PublicNavbar />
+      <Routes>
+        {/* create post */}
+        <Route element={<HomePage />} path="/" />
+        <Route element={<CreatePost />} path="/create-post" />
+        <Route element={<PostsList />} path="/lists" />
+        <Route element={<UpdatePost />} path="/posts/:postId" />
+        {/* <CreatePost />
+        <PostsList /> */}
+      </Routes>
+    </BrowserRouter>
+  );
 }
 
-export default App
+export default App;
