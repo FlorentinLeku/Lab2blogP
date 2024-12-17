@@ -1,9 +1,8 @@
 require("dotenv").config();
 const corse = require("cors");
-const asyncHandler = require("express-async-handler");
 const express = require("express");
-const Post = require("./models/Post/Post");
 const connectDB = require("./utils/connectDB");
+const postRouter = require("./router/post/postsRouter");
 //call the db
 connectDB();
 const app = express();
@@ -18,78 +17,8 @@ const corsOptions = {
   credentials: true,
 };
 app.use(corse(corsOptions));
-// ! Create post
-app.post("/api/v1/posts/create", asyncHandler (async (req, res) => {
-  
-    //get the payload
-    const {title, description} = req.body;
-    //find the post by title
-    const postFound = await Post.findOne({ title });
-    if(postFound){
-      throw new Error("Post already exist");
-    }
-    const postCreated = await Post.create({ title, description });
-    res.json({
-      status: "success",
-      message: "Post created successfully",
-      postCreated,
-    });
-  })
-);
-// ! List posts
-app.get("/api/v1/posts", asyncHandler(async (req, res) => {
-    const posts = await Post.find();
-    res.json({
-      status: "success",
-      message: "Post fetched successfully",
-      posts,
-    });
-}));
-// ! update post
-app.put("/api/v1/posts/:postId", asyncHandler(async (req, res) => {
-    //get the post id from params
-    const postId = req.params.postId;
-    //find the post
-    const postFound = await Post.findById(postId);
-    if (!postFound) {
-      throw new Error("Post  not found");
-    }
-    //update
-    const postUpdted = await Post.findByIdAndUpdate(
-      postId,
-      { title: req.body.title, description: req.body.description },
-      {
-        new: true,
-      }
-    );
-    res.json({
-      status: "Post updated successfully",
-      postUpdted,
-    });
-}));
-// ! get post
-app.get("/api/v1/posts/:postId", asyncHandler(async (req, res) => {
-    //get the post id from params
-    const postId = req.params.postId;
-    //find the post
-    const postFound = await Post.findById(postId);
-    res.json({
-      status: "success",
-      message: "Post fetched successfully",
-      postFound,
-    });
-}));
-// ! delete post
-app.delete("/api/v1/posts/:postId", asyncHandler(async (req, res) => {
-  //get the post id from params
-  const postId = req.params.postId;
-  //find the post
-  await Post.findByIdAndDelete(postId);
-  res.json({
-    status: "success",
-    message: "Post deleted successfully",
-  });
-}));
+//! Route handdler
+app.use("/api/v1", postRouter)
 //! Not found
 app.use((req, res, next) => {
   res.status(404).json({message: "Route not found on our server"});

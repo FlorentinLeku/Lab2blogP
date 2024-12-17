@@ -1,10 +1,14 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useFormik, validateYupSchema } from "formik";
+import 'react-quill/dist/quill.snow.css';
 import * as Yup from 'yup';
+import ReactQuill from "react-quill";
 import { useMutation } from '@tanstack/react-query';
 import { createPostAPI } from '../../APIServices/posts/postsAPI';
 
 const CreatePost = () => {
+    //state for wysiwg
+    const [description, setDescrition] = useState('');
     //post mutation
     const postMutation = useMutation({
         mutationKey:['create-post'],
@@ -13,18 +17,15 @@ const CreatePost = () => {
     const formik = useFormik({
         //initial data
         initialValues:{
-            title:'',
-            description: ''
+            description: '',
         },
         //validation
         validateYupSchema: Yup.object({
-            title: Yup.string().required("Title is required"),
             description: Yup.string().required("Description is required"),
         }),
         //submit
         onSubmit: (values) =>{
             const postData = {
-                title: values.title,
                 description: values.description,
             };
             postMutation.mutate(postData);
@@ -48,9 +49,13 @@ const CreatePost = () => {
         {isSuccess && <p>Post created successfully</p>}
         {isError && <p>{errorMsg}</p>}
         <form onSubmit={formik.handleSubmit}>
-            <input type="text" name="title" placeholder="Enter Title" 
-            {   ...formik.getFieldProps('title')}
-            />
+        <ReactQuill
+        value={formik.values.description}
+        onChange={(value)=>{
+            setDescrition(value);
+            formik.setFieldValue("description", value);
+        }}
+        />
             {/*display error message */}
             {formik.touched.title && formik.errors.title && (
           <span style={{ color: "red" }}>{formik.errors.title}</span>
