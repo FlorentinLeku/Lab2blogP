@@ -6,7 +6,7 @@ const postController = {
     createPost: asyncHandler (async (req, res) => {
   
         //get the payload
-        const {description} = req.body;
+        const {title, description} = req.body;
         
         const postCreated = await Post.create({ title, description });
         res.json({
