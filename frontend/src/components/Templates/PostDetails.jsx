@@ -1,4 +1,3 @@
-import { useQuery } from "@tanstack/react-query";
 import React, { useState } from "react";
 import {
   FaThumbsUp,
@@ -9,20 +8,9 @@ import {
   FaComment,
 } from "react-icons/fa";
 import * as Yup from "yup";
-import { fetchPost } from "../../APIServices/posts/postsAPI";
-import { useParams } from "react-router-dom";
 
 const PostDetails = () => {
   const [comment, setComment] = useState("");
-
-  // !Get the post id
-  const { postId } = useParams();
-  // ! use query
-  const { isError, isLoading, data, error, isSuccess } = useQuery({
-    queryKey: ["post-details"],
-    queryFn: () => fetchPost(postId),
-  });
-  console.log(data);
 
   return (
     <div className="container mx-auto p-4">
@@ -85,7 +73,7 @@ const PostDetails = () => {
         <div className="flex justify-between items-center mb-3">
           <div
             className="rendered-html-content mb-2"
-            // dangerouslySetInnerHTML={{ __html: postData?.description }}
+            dangerouslySetInnerHTML={{ __html: data?.postFound?.description }}
           />
 
           {/* Edit delete icon */}

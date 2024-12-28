@@ -28,11 +28,8 @@ export default function PublicNavbar(){
                                     )}
                                 </Disclosure.Button>
                             </div>
-                            <div className="flex flex-shrink-0 items-center">
-                                {/** Logo */}
-                                <FaBlog className="h-8 w-auto text-orange-500" />
-                            </div>
-                            <div className="hidden md:ml-6 md:flex md:space-x-8">
+                            <div className="hidden md:ml-6 md:flex md: space-x-8">
+
                             <Link
                                 to="/"
                                 className="inline-flex items-center border-b-2
@@ -80,9 +77,9 @@ export default function PublicNavbar(){
                     <div className="flex items-center">
                         <div className="flex-shrink-0">
                             <Link
-                                to="/create-post"
+                                to="/login"
                                 className="relative inline-flex items-center gap-x-1.5
-                                rounded-md bg-orange-600 px-3 py-2 text-sm font-semibold
+                                rounded-mdbg-orange-600 px-3 py-2 text-sm font-semibold
                                 text-white shadow-sm hover:bg-orange-600
                                 focus-visible: outline focus-visible:outline-2
                                 focus-visible: outline-offset-2
