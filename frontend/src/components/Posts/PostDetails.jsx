@@ -8,13 +8,12 @@ import {
   FaTrashAlt,
   FaComment,
 } from "react-icons/fa";
+import { useParams } from "react-router-dom";
 import * as Yup from "yup";
 import { fetchPost } from "../../APIServices/posts/postsAPI";
-import { useParams } from "react-router-dom";
 
 const PostDetails = () => {
   const [comment, setComment] = useState("");
-
   // !Get the post id
   const { postId } = useParams();
   // ! use query
@@ -23,13 +22,12 @@ const PostDetails = () => {
     queryFn: () => fetchPost(postId),
   });
   console.log(data);
-
   return (
     <div className="container mx-auto p-4">
       <div className="bg-white rounded-lg shadow-lg p-5">
         <img
-          // src={postData?.image?.path}
-          // alt={postData?._id}
+          src={data?.postFound?.image?.path}
+          alt={data?.postFound?.description}
           className="w-full h-full object-cover rounded-lg mb-4"
         />
         {/* Show messages */}
@@ -85,7 +83,7 @@ const PostDetails = () => {
         <div className="flex justify-between items-center mb-3">
           <div
             className="rendered-html-content mb-2"
-            // dangerouslySetInnerHTML={{ __html: postData?.description }}
+            dangerouslySetInnerHTML={{ __html: data?.postFound?.description }}
           />
 
           {/* Edit delete icon */}
