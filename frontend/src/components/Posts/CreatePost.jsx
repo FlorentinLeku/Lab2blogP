@@ -129,7 +129,8 @@ const CreatePost = () => {
           </div>
 
           {/* Image Upload Input - File input for uploading images */}
-          <div className="flex flex-col items-center justify-center bg-gray-50 p-4 shadow rounded-lg">
+          <div className="flex flex-col items-center justify-center 
+          bg-gray-50 p-4 shadow rounded-lg">
             <label
               htmlFor="images"
               className="block text-sm font-medium text-gray-700 mb-2"
@@ -147,7 +148,8 @@ const CreatePost = () => {
               />
               <label
                 htmlFor="images"
-                className="cursor-pointer bg-blue-500 text-white px-4 py-2 rounded shadow hover:bg-blue-600"
+                className="cursor-pointer bg-blue-500 text-white 
+                px-4 py-2 rounded shadow hover:bg-blue-600"
               >
                 Choose a file
               </label>
@@ -171,7 +173,8 @@ const CreatePost = () => {
                 />
                 <button
                   onClick={removeImage}
-                  className="absolute right-0 top-0 transform translate-x-1/2 -translate-y-1/2 bg-white rounded-full p-1"
+                  className="absolute right-0 top-0 transform t
+                  ranslate-x-1/2 -translate-y-1/2 bg-white rounded-full p-1"
                 >
                   <FaTimesCircle className="text-red-500" />
                 </button>
@@ -182,7 +185,10 @@ const CreatePost = () => {
           {/* Submit Button - Button to submit the form */}
           <button
             type="submit"
-            className="w-full py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-gradient-to-r from-orange-500 to-orange-500 hover:from-indigo-600 hover:to-blue-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+            className="w-full py-2 px-4 border border-transparent rounded-md 
+            shadow-sm text-sm font-medium text-white bg-gradient-to-r from-orange-500 
+            to-orange-500 hover:from-indigo-600 hover:to-blue-600 focus:outline-none 
+            focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
           >
             Add Post
           </button>

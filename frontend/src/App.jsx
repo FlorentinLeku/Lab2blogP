@@ -7,7 +7,7 @@ import PostsList from "./components/Posts/PostsList";
 import PostDetails from "./components/Templates/PostDetails";
 import Home from "./components/Templates/Home/Home";
 import Login from "./components/User/Login";
-import Login from "./components/User/Register";
+import Register from "./components/User/Register";
 
 function App() {
   return (
