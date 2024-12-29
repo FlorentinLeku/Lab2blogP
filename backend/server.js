@@ -1,8 +1,10 @@
 require("dotenv").config();
+const passport = require("./utils/passport-config");
 const corse = require("cors");
 const express = require("express");
 const connectDB = require("./utils/connectDB");
 const postRouter = require("./router/post/postsRouter");
+const usersRouter = require("./router/user/usersRouter");
 //call the db
 connectDB();
 const app = express();
@@ -17,8 +19,11 @@ const corsOptions = {
   credentials: true,
 };
 app.use(corse(corsOptions));
+//Passport middleware
+app.use(passport.initialize());
 //! Route handdler
-app.use("/api/v1", postRouter)
+app.use("/api/v1/posts", postRouter)
+app.use("/api/v1/users", usersRouter)
 //! Not found
 app.use((req, res, next) => {
   res.status(404).json({message: "Route not found on our server"});

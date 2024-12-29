@@ -10,21 +10,21 @@ const postRouter = express.Router();
 //-----Create post----
 
 postRouter.post(
-  "/posts/create",
+  "/create",
   upload.single("image"),
   postController.createPost
 );
 
 //----lists all posts----
-postRouter.get("/posts", postController.fetchAllPosts);
+postRouter.get("/", postController.fetchAllPosts);
 
 //----update post----
-postRouter.put("/posts/:postId", postController.update);
+postRouter.put("/:postId", postController.update);
 
 //--- get post---
-postRouter.get("/posts/:postId", postController.getPost);
+postRouter.get("/:postId", postController.getPost);
 
 //---delete post---
-postRouter.delete("/posts/:postId", postController.delete);
+postRouter.delete("/:postId", postController.delete);
 
 module.exports = postRouter;

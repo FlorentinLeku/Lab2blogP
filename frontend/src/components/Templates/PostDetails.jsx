@@ -73,7 +73,7 @@ const PostDetails = () => {
         <div className="flex justify-between items-center mb-3">
           <div
             className="rendered-html-content mb-2"
-            dangerouslySetInnerHTML={{ __html: data?.postFound?.description }}
+            //dangerouslySetInnerHTML={{ __html: data?.postFound?.description }}
           />
 
           {/* Edit delete icon */}
