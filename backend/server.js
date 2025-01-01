@@ -5,6 +5,7 @@ const express = require("express");
 const connectDB = require("./utils/connectDB");
 const postRouter = require("./router/post/postsRouter");
 const usersRouter = require("./router/user/usersRouter");
+const cookieParser = require("cookie-parser");
 //call the db
 connectDB();
 const app = express();
@@ -21,6 +22,7 @@ const corsOptions = {
 app.use(corse(corsOptions));
 //Passport middleware
 app.use(passport.initialize());
+app.use(cookieParser()); //automattically parses the cookie
 //! Route handdler
 app.use("/api/v1/posts", postRouter)
 app.use("/api/v1/users", usersRouter)
