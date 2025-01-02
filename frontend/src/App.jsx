@@ -1,19 +1,40 @@
 import CreatePost from "./components/Posts/CreatePost";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import PublicNavbar from "./components/Navbar/PublicNavbar";
-import HomePage from "./components/Home/HomePage";
 import UpdatePost from "./components/Posts/UpdatePost";
 import PostsList from "./components/Posts/PostsList";
-import PostDetails from "./components/Templates/PostDetails";
-import Home from "./components/Templates/Home/Home";
+import Home from "./components/Home/HomePage";
+import PostDetails from "./components/Posts/PostDetails";
 import Login from "./components/User/Login";
 import Register from "./components/User/Register";
+import Profile from "./components/User/Profile";
+import PrivateNavbar from "./components/Navbar/PrivateNavbar";
+import { useDispatch, useSelector } from "react-redux";
+import { checkAuthStatusAPI } from "./APIServices/users/usersAPI";
+import { useQuery } from "@tanstack/react-query";
+import { isAuthenticated } from "./redux/slices/authSlices";
+import { useEffect } from "react";
+import AuthRoute from "./components/AuthRoute/AuthRoute";
 
 function App() {
+  // ! use query
+  const { isError, isLoading, data, error, isSuccess, refetch } = useQuery({
+    queryKey: ["user-auth"],
+    queryFn: checkAuthStatusAPI,
+  });
+
+  //dispatch
+  const dispatch = useDispatch();
+  useEffect(() => {
+    dispatch(isAuthenticated(data));
+  }, [data]);
+  //Get the login user from store
+  const { userAuth } = useSelector((state) => state.auth);
+
   return (
     <BrowserRouter>
       {/* Navbar */}
-      <PublicNavbar />
+      {userAuth ? <PrivateNavbar /> : <PublicNavbar />}
       <Routes>
         {/* create post */}
         <Route element={<Home />} path="/" />
@@ -22,12 +43,20 @@ function App() {
         <Route element={<PostDetails />} path="/posts/:postId" />
         <Route element={<Login />} path="/login" />
         <Route element={<Register />} path="/register" />
-        {/*<Route element={<UpdatePost />} path="/posts/:postId" />}
+        <Route
+          element={
+            <AuthRoute>
+              <Profile />
+            </AuthRoute>
+          }
+          path="/profile"
+        />
+        {/* <Route element={<UpdatePost />} path="/posts/:postId" /> */}
         {/* <CreatePost />
         <PostsList /> */}
       </Routes>
     </BrowserRouter>
   );
-};
+}
 
 export default App;

@@ -113,7 +113,11 @@ const userController = {
     } catch (error) {}
     return res.status(401).json({ isAuthenticated: false, error });
   }),
-
+  // ! Logout
+  logout: asyncHandler(async (req, res) => {
+    res.cookie("token", "", { maxAge: 1 });
+    res.status(200).json({ message: "Logout success" });
+  }),  
 };
 
 module.exports = userController;

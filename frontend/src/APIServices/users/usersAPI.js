@@ -29,6 +29,28 @@ export const loginAPI = async (userData) => {
       withCredentials: true,
     }
   );
+  return response.data;
+};
+
+  //http://localhost:5000/api/v1/users/checkAuthenticated
+// ! checkAuthStatus user
+export const checkAuthStatusAPI = async () => {
+  const response = await axios.get(`${BASE_URL}/users/checkAuthenticated`, {
+    withCredentials: true,
+  });
+
+  return response.data;
+};
+
+// ! logout user
+export const logoutAPI = async (userData) => {
+  const response = await axios.post(
+    `${BASE_URL}/users/logout`,
+    {},
+    {
+      withCredentials: true,
+    }
+  );
 
   return response.data;
 };
