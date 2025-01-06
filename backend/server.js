@@ -1,11 +1,12 @@
 require("dotenv").config();
-const passport = require("./utils/passport-config");
 const corse = require("cors");
+const passport = require("./utils/passport-config");
 const express = require("express");
+const cookieParser = require("cookie-parser");
 const connectDB = require("./utils/connectDB");
 const postRouter = require("./router/post/postsRouter");
 const usersRouter = require("./router/user/usersRouter");
-const cookieParser = require("cookie-parser");
+const categoriesRouter = require("./router/category/categoriesRouter");
 //call the db
 connectDB();
 const app = express();
@@ -20,22 +21,23 @@ const corsOptions = {
   credentials: true,
 };
 app.use(corse(corsOptions));
-//Passport middleware
+// Passport middleware
 app.use(passport.initialize());
 app.use(cookieParser()); //automattically parses the cookie
-//! Route handdler
-app.use("/api/v1/posts", postRouter)
-app.use("/api/v1/users", usersRouter)
-//! Not found
+//!---Route handlers
+app.use("/api/v1/posts", postRouter);
+app.use("/api/v1/users", usersRouter);
+app.use("/api/v1/categories", categoriesRouter);
+
+//!Not found
 app.use((req, res, next) => {
-  res.status(404).json({message: "Route not found on our server"});
+  res.status(404).json({ message: "Route not found on our server" });
 });
 //! Error handdling middleware
-app.use((err, req, res, next)=> {
+app.use((err, req, res, next) => {
   //prepare the error message
   const message = err.message;
   const stack = err.stack;
-  console.log(message);
   res.status(500).json({
     message,
     stack,
