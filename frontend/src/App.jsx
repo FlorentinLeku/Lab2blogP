@@ -15,7 +15,7 @@ import { useQuery } from "@tanstack/react-query";
 import { isAuthenticated } from "./redux/slices/authSlices";
 import { useEffect } from "react";
 import AuthRoute from "./components/AuthRoute/AuthRoute";
-import UserDashbaord from "./components/User/UserDashboard";
+import UserDashboard from "./components/User/UserDashboard";
 import AccountSummaryDashboard from "./components/User/AccountSummary";
 
 function App() {
@@ -40,7 +40,8 @@ function App() {
       <Routes>
         {/* create post */}
         <Route element={<Home />} path="/" />
-        <Route element={<UserDashbaord />} path="/dashboard">
+        {/* User dashboard */}
+        <Route element={<UserDashboard />} path="/dashboard">
           {/* Account summary  */}
           <Route
             element={
@@ -58,6 +59,15 @@ function App() {
               </AuthRoute>
             }
             path="create-post"
+          />
+          {/* Create category */}
+          <Route
+            element={
+              <AuthRoute>
+                <AddCategory />
+              </AuthRoute>
+            }
+            path="add-category"
           />
         </Route>
         <Route element={<PostsList />} path="/posts" />
