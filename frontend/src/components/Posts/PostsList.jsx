@@ -7,11 +7,49 @@ import NoDataFound from "../Alert/NoDataFound";
 import AlertMessage from "../Alert/AlertMessage";
 
 const PostsList = () => {
+  //filtering state
+  const [filters, setFilters] = useState({});
+  const [searchTerm, setSearchTerm] = useState("");
+  const [page, setPage] = useState(1);
+
   // ! use query
   const { isError, isLoading, data, error, isSuccess, refetch } = useQuery({
-    queryKey: ["lists-posts"],
-    queryFn: fetchAllPosts,
+    queryKey: ["lists-posts", { ...filters, page }],
+    queryFn: () =>
+      fetchAllPosts({ ...filters, title: searchTerm, page, limit: 10 }),
   });
+  console.log(data);
+
+  //category filter handler
+  const handleCategoryFilter = (categoryId) => {
+    setFilters({ ...filters, category: categoryId });
+    setPage(1);
+    refetch();
+  };
+  //handle search  handler
+  const handleSearchChange = (e) => {
+    console.log(e.target.value);
+    setSearchTerm(e.target.value);
+  };
+  //handle submit search term  handler
+  const handleSearchSubmit = (e) => {
+    e.preventDefault();
+    setFilters({ ...filters, title: searchTerm });
+    setPage(1);
+    refetch();
+  };
+  //handle page change   handler
+  const handlePageChange = (newPage) => {
+    setPage(newPage);
+    refetch();
+  };
+  //handle clear filters   handler
+  const clearFilters = () => {
+    setFilters({});
+    setSearchTerm("");
+    setPage(1);
+    refetch();
+  };
   // post mutation
   const postMutation = useMutation({
     mutationKey: ["delete-post"],
@@ -56,7 +94,7 @@ const PostsList = () => {
         {/* Post category */}
          <PostCategory
           categories={categories}
-          // onCategorySelect={handleCategoryFilter}
+          onCategorySelect={handleCategoryFilter}
         />
         <div className="flex flex-wrap mb-32 -mx-4">
           {/* Posts */}

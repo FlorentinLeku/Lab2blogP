@@ -31,11 +31,30 @@ const postController = {
 
   //!list all posts
   fetchAllPosts: asyncHandler(async (req, res) => {
-    const posts = await Post.find().populate("category");
+    const { category, title, page = 1, limit = 300 } = req.query;
+    //Basic filter
+    let filter = {};
+    if (category) {
+      filter.category = category;
+    }
+    if (title) {
+      filter.description = { $regex: title, $options: "i" }; //case insensitive
+    }
+
+    const posts = await Post.find(filter)
+      .populate("category")
+      .sort({ createdAt: -1 })
+      .skip((page - 1) * limit)
+      .limit(limit);
+    //total posts
+    const totalPosts = await Post.countDocuments(filter);
     res.json({
       status: "success",
       message: "Post fetched successfully",
       posts,
+      currentPage: page,
+      perPage: limit,
+      totalPages: Math.ceil(totalPosts / limit),
     });
   }),
   //! get a post
