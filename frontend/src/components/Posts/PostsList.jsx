@@ -17,6 +17,11 @@ const PostsList = () => {
     mutationKey: ["delete-post"],
     mutationFn: deletePostAPI,
   });
+  // Fetch categories
+    const { data: categories } = useQuery({
+      queryKey: ["category-lists"],
+      queryFn: fetchCategoriesAPI,
+    });
   //delete handler
   // const deleteHandler = async (postId) => {
   //   postMutation
@@ -49,10 +54,10 @@ const PostsList = () => {
           Latest articles
         </h2>
         {/* Post category */}
-        {/* <PostCategory
-          categories={categoriesData}
-          onCategorySelect={handleCategoryFilter}
-        /> */}
+         <PostCategory
+          categories={categories}
+          // onCategorySelect={handleCategoryFilter}
+        />
         <div className="flex flex-wrap mb-32 -mx-4">
           {/* Posts */}
           {data?.posts?.map((post) => (
@@ -89,7 +94,7 @@ const PostsList = () => {
                         <circle cx={2} cy={2} r={2} fill="#B8B8B8" />
                       </svg>
                       <div className="py-1 px-2 rounded-md border border-gray-100 text-xs font-medium text-gray-700 inline-block">
-                        {/* {post?.category?.categoryName} */}
+                        {post?.category?.categoryName}
                       </div>
                     </div>
                   </div>

@@ -4,14 +4,24 @@ const Post = require("../../models/Post/Post");
 const postController = {
   //!Create post
   createPost: asyncHandler(async (req, res) => {
-    console.log(req.user);
     //get the payload
-    const { description } = req.body;
+    const { description, category } = req.body;
+    //find the category
+    const categoryFound = await category.findById(category);
+    if(!categoryFound){
+      throw new Error('Category not found')
+
+    }
     const postCreated = await Post.create({ 
       description, 
       image: req.file, 
       author: req.user,
+      category,
     });
+    // push the post into category
+    categoryFound.posts.push(categoryFound?._id);
+    //resave the category
+    await categoryFound.save();
     res.json({
       status: "success",
       message: "Post created successfully",
@@ -21,7 +31,7 @@ const postController = {
 
   //!list all posts
   fetchAllPosts: asyncHandler(async (req, res) => {
-    const posts = await Post.find();
+    const posts = await Post.find().populate("category");
     res.json({
       status: "success",
       message: "Post fetched successfully",
