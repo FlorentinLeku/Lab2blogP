@@ -117,7 +117,7 @@ const userController = {
   logout: asyncHandler(async (req, res) => {
     res.cookie("token", "", { maxAge: 1 });
     res.status(200).json({ message: "Logout success" });
-  }),  
+  }),
 };
 
 module.exports = userController;

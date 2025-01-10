@@ -3,7 +3,6 @@ const multer = require("multer");
 const postController = require("../../controllers/posts/postController");
 const storage = require("../../utils/fileupload");
 const isAuthenticated = require("../../middlewares/isAuthenticated");
-
 //create multer instance
 const upload = multer({ storage });
 //!create instance express router
