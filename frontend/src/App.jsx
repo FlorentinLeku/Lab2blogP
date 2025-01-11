@@ -18,6 +18,7 @@ import AuthRoute from "./components/AuthRoute/AuthRoute";
 import UserDashbaord from "./components/User/UserDashboard";
 import AccountSummaryDashboard from "./components/User/AccountSummary";
 import AddCategory from "./components/Category/AddCategory";
+import CreatePlan from "./components/Plans/CreatePlan";
 
 function App() {
   // ! use query
@@ -60,6 +61,15 @@ function App() {
               </AuthRoute>
             }
             path="create-post"
+          />
+            {/* Create plan */}
+            <Route
+            element={
+              <AuthRoute>
+                <CreatePlan />
+              </AuthRoute>
+            }
+            path="create-plan"
           />
           {/* Create category */}
           <Route
