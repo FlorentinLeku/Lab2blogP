@@ -20,6 +20,10 @@ import AccountSummaryDashboard from "./components/User/AccountSummary";
 import AddCategory from "./components/Category/AddCategory";
 import CreatePlan from "./components/Plans/CreatePlan";
 import Pricing from "./components/Plans/Pricing";
+import CheckoutForm from "./components/Plans/CheckoutForm";
+import PaymentSuccess from "./components/Plans/PaymentSuccess";
+import PayingFreePlan from "./components/Plans/PayingFreePlan";
+
 
 function App() {
   // ! use query
@@ -63,8 +67,8 @@ function App() {
             }
             path="create-post"
           />
-            {/* Create plan */}
-            <Route
+          {/* Create plan */}
+          <Route
             element={
               <AuthRoute>
                 <CreatePlan />
@@ -82,12 +86,13 @@ function App() {
             path="add-category"
           />
         </Route>
-
+        {/* public links */}
         <Route element={<PostsList />} path="/posts" />
         <Route element={<PostDetails />} path="/posts/:postId" />
         <Route element={<Login />} path="/login" />
         <Route element={<Register />} path="/register" />
         <Route element={<Pricing />} path="/pricing" />
+        <Route element={<CheckoutForm />} path="/checkout/:planId" />
         <Route
           element={
             <AuthRoute>
@@ -95,6 +100,22 @@ function App() {
             </AuthRoute>
           }
           path="/profile"
+        />
+        <Route
+          element={
+            <AuthRoute>
+              <PaymentSuccess />
+            </AuthRoute>
+          }
+          path="/success"
+        />
+        <Route
+          element={
+            <AuthRoute>
+              <PayingFreePlan />
+            </AuthRoute>
+          }
+          path="/free-subscription"
         />
         {/* <Route element={<UpdatePost />} path="/posts/:postId" /> */}
         {/* <CreatePost />

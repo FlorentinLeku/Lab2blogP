@@ -1,6 +1,7 @@
 const express = require("express");
 const isAuthenticated = require("../../middlewares/isAuthenticated");
 const stripePaymentController = require("../../controllers/stripePayment/stripePaymentController");
+const checkUserPlan = require("../../middlewares/checkUserPlan");
 
 const stripePaymentRouter = express.Router();
 
