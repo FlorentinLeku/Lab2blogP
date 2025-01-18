@@ -12,19 +12,22 @@ export const createPostAPI = async (postData) => {
 };
 //!update post api
 export const updatePostAPI = async (postData) => {
-  console.log(postData);
-  const response = await axios.put(`${BASE_URL}/${postData?.postId}`, {
-    title: postData.title,
-    description: postData.description,
-  },{
-    withCredentials: true,
-  });
+  const response = await axios.put(
+    `${BASE_URL}/${postData?.postId}`,
+    {
+      title: postData.title,
+      description: postData.description,
+    },
+    {
+      withCredentials: true,
+    }
+  );
   return response.data;
 };
 //! Fetch all posts
 export const fetchAllPosts = async (filters) => {
   console.log(filters);
-  const posts = await axios.get(BASE_URL,{
+  const posts = await axios.get(BASE_URL, {
     params: filters,
   });
   return posts.data;
@@ -36,8 +39,31 @@ export const fetchPost = async (postId) => {
 };
 //! delete  post
 export const deletePostAPI = async (postId) => {
-  const posts = await axios.delete(`${BASE_URL}/${postId}`,{
+  const posts = await axios.delete(`${BASE_URL}/${postId}`, {
     withCredentials: true,
   });
   return posts.data;
+};
+
+//!like post api
+export const likePostAPI = async (postId) => {
+  const response = await axios.put(
+    `${BASE_URL}/likes/${postId}`,
+    {},
+    {
+      withCredentials: true,
+    }
+  );
+  return response.data;
+};
+//!dislike post api
+export const dislikePostAPI = async (postId) => {
+  const response = await axios.put(
+    `${BASE_URL}/dislikes/${postId}`,
+    {},
+    {
+      withCredentials: true,
+    }
+  );
+  return response.data;
 };

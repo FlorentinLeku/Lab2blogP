@@ -42,11 +42,43 @@ export const checkAuthStatusAPI = async () => {
 
   return response.data;
 };
+// ! user profile
+export const userProfileAPI = async () => {
+  const response = await axios.get(`${BASE_URL}/users/profile`, {
+    withCredentials: true,
+  });
+  return response.data;
+};
 
 // ! logout user
 export const logoutAPI = async (userData) => {
   const response = await axios.post(
     `${BASE_URL}/users/logout`,
+    {},
+    {
+      withCredentials: true,
+    }
+  );
+
+  return response.data;
+};
+
+// ! follw user
+export const followUserAPI = async (userId) => {
+  const response = await axios.put(
+    `${BASE_URL}/users/follow/${userId}`,
+    {},
+    {
+      withCredentials: true,
+    }
+  );
+
+  return response.data;
+};
+// ! unfollw user
+export const unfollowUserAPI = async (userId) => {
+  const response = await axios.put(
+    `${BASE_URL}/users/unfollow/${userId}`,
     {},
     {
       withCredentials: true,

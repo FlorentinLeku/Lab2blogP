@@ -73,6 +73,8 @@ export default function UserDashbaord() {
 
   return (
     <>
+      {/* Account summary component */}
+
       <div>
         <Transition.Root show={sidebarOpen} as={Fragment}>
           <Dialog
