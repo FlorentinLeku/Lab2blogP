@@ -23,7 +23,7 @@ import Pricing from "./components/Plans/Pricing";
 import CheckoutForm from "./components/Plans/CheckoutForm";
 import PaymentSuccess from "./components/Plans/PaymentSuccess";
 import PayingFreePlan from "./components/Plans/PayingFreePlan";
-
+import AccountVerifiedComponent from "./components/User/AccountVerification";
 
 function App() {
   // ! use query
@@ -66,6 +66,15 @@ function App() {
               </AuthRoute>
             }
             path="create-post"
+          />
+          {/* verify-account */}
+          <Route
+            element={
+              <AuthRoute>
+                <AccountVerifiedComponent />
+              </AuthRoute>
+            }
+            path="account-verification/:verifyToken"
           />
           {/* Create plan */}
           <Route

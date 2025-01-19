@@ -1,3 +1,4 @@
+import { useMutation, useQuery } from "@tanstack/react-query";
 import React from "react";
 import {
   FaEye,
@@ -8,28 +9,37 @@ import {
   FaFlag,
 } from "react-icons/fa";
 import { Link } from "react-router-dom";
+import {
+  sendEmailVerificatonTokenAPI,
+  userProfileAPI,
+} from "../../APIServices/users/usersAPI";
+import AlertMessage from "../Alert/AlertMessage";
 
-const AccountSummaryDashboard = ({}) => {
+const AccountSummaryDashboard = () => {
+  const { data, isLoading, isError, error } = useQuery({
+    queryKey: ["profile"],
+    queryFn: userProfileAPI,
+  });
   //check if user has email
 
-  const hasEmail = false;
-
+  const hasEmail = data?.user?.email;
+  console.log(data);
   //check if user has plan
 
-  const hasPlan = false;
+  const hasPlan = data?.user?.hasSelectedPlan;
 
   //check if user has verified account
-  const isEmailVerified = false;
+  const isEmailVerified = data?.user?.isEmailVerified;
 
   //total followers
-  const totalFollowers = 0;
+  const totalFollowers = data?.user?.followers?.length;
 
   //total following
-  const totalFollowing = 10;
+  const totalFollowing = data?.user?.following?.length;
 
   //get user posts
 
-  const userPosts = 0;
+  const userPosts = data?.user?.posts?.length;
 
   //there is a view count in the post object so calculate the total views
 
@@ -102,7 +112,16 @@ const AccountSummaryDashboard = ({}) => {
       bgColor: "bg-teal-500",
     },
   ];
-
+  //! Sending email verification token mutation
+  const verificationTokenMutation = useMutation({
+    mutationKey: ["send-email-verification-token"],
+    mutationFn: sendEmailVerificatonTokenAPI,
+  });
+  //handleSendVerificationEmail
+  const handleSendVerificationEmail = async () => {
+    verificationTokenMutation.mutate();
+  };
+  console.log(verificationTokenMutation);
   return (
     <div className="p-4">
       <p
@@ -110,21 +129,25 @@ const AccountSummaryDashboard = ({}) => {
        font-bold text-2xl text-gray-800 mb-4
       "
       >
-        Welcome Back:User101
+        Welcome Back: {data?.user?.username}
       </p>
       {/* display account verification status */}
-      {/* {mutation.isPending ? (
-        <AlertMessage type="loading" message="Loading..." />
-      ) : mutation.isError ? (
+      {verificationTokenMutation.isPending ? (
+        <AlertMessage type="loading" message="Email sending loading..." />
+      ) : verificationTokenMutation.isError ? (
         <AlertMessage
           type="error"
           message={
-            mutation?.error?.message || mutation?.error?.response?.data?.message
+            verificationTokenMutation?.error?.message ||
+            verificationTokenMutation?.error?.response?.data?.message
           }
         />
-      ) : mutation.isSuccess ? (
-        <AlertMessage type="success" message={mutation?.data?.message} />
-      ) : null} */}
+      ) : verificationTokenMutation.isSuccess ? (
+        <AlertMessage
+          type="success"
+          message={verificationTokenMutation?.data?.message}
+        />
+      ) : null}
       {!hasPlan && (
         <div
           className="bg-yellow-100 border-l-4 border-yellow-500 text-yellow-700 p-4 mb-4"
@@ -149,7 +172,7 @@ const AccountSummaryDashboard = ({}) => {
           <p>
             Your account is not verified. Please{" "}
             <button
-              // onClick={handleSendVerificationEmail}
+              onClick={handleSendVerificationEmail}
               className="underline text-red-800"
             >
               verify your account
