@@ -22,5 +22,15 @@ usersRouter.put(
   isAuthenticated,
   userController.unFollowUser
 );
+usersRouter.put(
+  "/account-verification-email",
+  isAuthenticated,
+  userController.verifyEmailAccount
+);
+usersRouter.put(
+  "/verify-account/:verifyToken",
+  isAuthenticated,
+  userController.verifyEmailAcc
+);
 
 module.exports = usersRouter;

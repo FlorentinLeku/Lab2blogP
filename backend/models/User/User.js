@@ -1,4 +1,5 @@
 const mongoose = require("mongoose");
+const crypto = require("crypto");
 const userSchema = new mongoose.Schema(
   {
     // Basic user information
@@ -36,10 +37,6 @@ const userSchema = new mongoose.Schema(
       type: String,
       default: null,
     },
-    accountVerificationExpires: {
-      type: Date,
-      default: null,
-    },
     accountVerificationToken: {
       type: String,
       default: null,
@@ -60,7 +57,7 @@ const userSchema = new mongoose.Schema(
       default: () =>
         new Date(new Date().getFullYear(), new Date().getMonth() + 1, 1), // Sets to the first day of the next month
     },
-    Plan: {
+    plan: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "Plan",
     },
@@ -78,7 +75,18 @@ const userSchema = new mongoose.Schema(
   },
   { timestamps: true }
 );
+//! Generate token for account verification
+userSchema.methods.generateAccVerificationToken = function () {
+  const emailToken = crypto.randomBytes(20).toString("hex");
+  //assign the token to the user
+  this.accountVerificationToken = crypto
+    .createHash("sha256")
+    .update(emailToken)
+    .digest("hex");
 
+  this.accountVerificationExpires = Date.now() + 10 * 60 * 1000; //10 minutes
+  return emailToken;
+};
 const User = mongoose.model("User", userSchema);
 
 module.exports = User;

@@ -1,8 +1,10 @@
 const asyncHandler = require("express-async-handler");
 const bcrypt = require("bcryptjs");
+const crypto = require("crypto");
 const jwt = require("jsonwebtoken");
 const passport = require("passport");
 const User = require("../../models/User/User");
+const sendAccVerificationEmail = require("../../utils/sendAccVerificationEmail");
 
 //-----User Controller---
 
@@ -174,6 +176,53 @@ const userController = {
     res.json({
       message: "User unfollowed",
     });
+  }),
+  //! Verify email account (token)
+  verifyEmailAccount: asyncHandler(async (req, res) => {
+    //find the login user
+    const user = await User.findById(req.user);
+    if (!user) {
+      throw new Error("User not found please login");
+    }
+    // heck if user email exists
+    if (!user?.email) {
+      throw new Error("Email not found");
+    }
+    //use the method from the model
+    const token = await user.generateAccVerificationToken();
+    //resave the user
+    await user.save();
+    //send the email
+    sendAccVerificationEmail(user?.email, token);
+    res.json({
+      message: `Account verification email sent to ${user?.email} token expires in 10 minutes`,
+    });
+  }),
+  //! Verify email account
+  verifyEmailAcc: asyncHandler(async (req, res) => {
+    //Get the token
+    const { verifyToken } = req.params;
+    //Convert the token to actual token that has been saved in our db
+    const cryptoToken = crypto
+      .createHash("sha256")
+      .update(verifyToken)
+      .digest("hex");
+    //Find the user
+    const userFound = await User.findOne({
+      accountVerificationToken: cryptoToken,
+      accountVerificationExpires: { $gt: Date.now() },
+    });
+    if (!userFound) {
+      throw new Error("Account verification expires");
+    }
+
+    //Update the user field
+    userFound.isEmailVerified = true;
+    userFound.accountVerificationToken = null;
+    userFound.accountVerificationExpires = null;
+    //resave the user
+    await userFound.save();
+    res.json({ message: "Account successfully verified" });
   }),
 };
 
