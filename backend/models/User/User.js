@@ -29,10 +29,7 @@ const userSchema = new mongoose.Schema(
       required: true,
       default: "local",
     },
-    passwordResetToken: {
-      type: String,
-      default: null,
-    },
+
     accountVerificationToken: {
       type: String,
       default: null,
@@ -49,7 +46,10 @@ const userSchema = new mongoose.Schema(
       type: Date,
       default: null,
     },
-
+    passwordResetToken: {
+      type: String,
+      default: null,
+    },
     posts: [{ type: mongoose.Schema.Types.ObjectId, ref: "Post" }],
     totalEarnings: { type: Number, default: 0 },
     nextEarningDate: {
@@ -79,12 +79,24 @@ const userSchema = new mongoose.Schema(
 userSchema.methods.generateAccVerificationToken = function () {
   const emailToken = crypto.randomBytes(20).toString("hex");
   //assign the token to the user
-  this.accountVerificationToken = crypto
+  this.passwordResetToken = crypto
     .createHash("sha256")
     .update(emailToken)
     .digest("hex");
 
   this.accountVerificationExpires = Date.now() + 10 * 60 * 1000; //10 minutes
+  return emailToken;
+};
+//! Generate token for password reset
+userSchema.methods.generatePasswordResetToken = function () {
+  const emailToken = crypto.randomBytes(20).toString("hex");
+  //assign the token to the user
+  this.passwordResetToken = crypto
+    .createHash("sha256")
+    .update(emailToken)
+    .digest("hex");
+
+  this.passwordResetExpires = Date.now() + 10 * 60 * 1000; //10 minutes
   return emailToken;
 };
 const User = mongoose.model("User", userSchema);

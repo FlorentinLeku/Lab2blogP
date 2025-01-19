@@ -5,6 +5,7 @@ const jwt = require("jsonwebtoken");
 const passport = require("passport");
 const User = require("../../models/User/User");
 const sendAccVerificationEmail = require("../../utils/sendAccVerificationEmail");
+const sendPasswordEmail = require("../../utils/sendPasswordEmail");
 
 //-----User Controller---
 
@@ -177,14 +178,14 @@ const userController = {
       message: "User unfollowed",
     });
   }),
-  //! Verify email account (token)
+  //! Verify email acount (token)
   verifyEmailAccount: asyncHandler(async (req, res) => {
     //find the login user
     const user = await User.findById(req.user);
     if (!user) {
       throw new Error("User not found please login");
     }
-    // heck if user email exists
+    // check if user email exists
     if (!user?.email) {
       throw new Error("Email not found");
     }
@@ -198,7 +199,7 @@ const userController = {
       message: `Account verification email sent to ${user?.email} token expires in 10 minutes`,
     });
   }),
-  //! Verify email account
+  //! Verify email acount
   verifyEmailAcc: asyncHandler(async (req, res) => {
     //Get the token
     const { verifyToken } = req.params;
@@ -223,6 +224,61 @@ const userController = {
     //resave the user
     await userFound.save();
     res.json({ message: "Account successfully verified" });
+  }),
+
+  //! forgot password (sending email token)
+  forgotPassword: asyncHandler(async (req, res) => {
+    //find the user email
+    const { email } = req.body;
+    // find the user
+    const user = await User.findOne({ email });
+    if (!user) {
+      throw new Error(`User with email ${email} is not found in our database`);
+    }
+    //check if user registered with google
+    if (user.authMethod !== "local") {
+      throw new Error("Please login with your social account");
+    }
+
+    //use the method from the model
+    const token = await user.generatePasswordResetToken();
+    //resave the user
+    await user.save();
+    //send the email
+    sendPasswordEmail(user?.email, token);
+    res.json({
+      message: `Password reset email sent to ${email}`,
+    });
+  }),
+  //! reset password
+  resetPassword: asyncHandler(async (req, res) => {
+    //Get the token
+    const { verifyToken } = req.params;
+    const { password } = req.body;
+
+    //Convert the token to actual token that has been saved in our db
+    const cryptoToken = crypto
+      .createHash("sha256")
+      .update(verifyToken)
+      .digest("hex");
+    //Find the user
+    const userFound = await User.findOne({
+      passwordResetToken: cryptoToken,
+      passwordResetExpires: { $gt: Date.now() },
+    });
+    if (!userFound) {
+      throw new Error("Password reset token expires");
+    }
+
+    //Update the user field
+    //change the password
+    const salt = await bcrypt.genSalt(10);
+    userFound.password = await bcrypt.hash(password, salt);
+    userFound.passwordResetToken = null;
+    userFound.passwordResetExpires = null;
+    //resave the user
+    await userFound.save();
+    res.json({ message: "Password successfully reset" });
   }),
 };
 
