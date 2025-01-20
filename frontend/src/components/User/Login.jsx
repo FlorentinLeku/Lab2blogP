@@ -18,8 +18,8 @@ const Login = () => {
   const formik = useFormik({
     // initial data
     initialValues: {
-      username: "",
-      password: "",
+      username: "masynctech",
+      password: "12345",
     },
     // validation
     validationSchema: Yup.object({
@@ -33,7 +33,7 @@ const Login = () => {
         .mutateAsync(values)
         .then(() => {
           // redirect
-          // navigate("/login");
+          navigate("/dashboard");
         })
         .catch((err) => console.log(err));
     },
@@ -114,16 +114,19 @@ const Login = () => {
                 />
               </svg>
             </div>
+
             {/* error */}
             {formik.touched.password && formik.errors.password && (
               <div className="text-red-500 mt-1">{formik.errors.password}</div>
             )}
+
             <button
               className="h-14 inline-flex items-center justify-center py-4 px-6 text-white font-bold font-heading rounded-full bg-orange-500 w-full text-center border border-orange-600 shadow hover:bg-orange-600 focus:ring focus:ring-orange-200 transition duration-200 mb-8"
               type="submit"
             >
               Login
             </button>
+
             {/* login with google */}
             <a
               href="http://localhost:5000/api/v1/users/auth/google"
@@ -138,13 +141,7 @@ const Login = () => {
                 fill="none"
               >
                 <path
-                  d="M10.5003 1.91667C12.5358 1.91667 14.3903 2.67493 15.8117 
-                  3.91839L13.8037 5.92643C12.9021 5.19326 11.7542 4.75001 10.5003 
-                  4.75001C7.601 4.75001 5.25033 7.10068 5.25033 10C5.25033 12.8993 
-                  7.601 15.25 10.5003 15.25C12.7863 15.25 14.7244 13.7867 15.4456 
-                  11.7501L15.5636 11.4167H15.2099H10.7503V8.58334H17.7503V8.61792H18.0003H18.4637C18.5415 
-                  9.06752 18.5837 9.52907 18.5837 10C18.5837 14.464 14.9643 18.0833 10.5003 18.0833C6.03631 
-                  18.0833 2.41699 14.464 2.41699 10C2.41699 5.53599 6.03631 1.91667 10.5003 1.91667Z"
+                  d="M10.5003 1.91667C12.5358 1.91667 14.3903 2.67493 15.8117 3.91839L13.8037 5.92643C12.9021 5.19326 11.7542 4.75001 10.5003 4.75001C7.601 4.75001 5.25033 7.10068 5.25033 10C5.25033 12.8993 7.601 15.25 10.5003 15.25C12.7863 15.25 14.7244 13.7867 15.4456 11.7501L15.5636 11.4167H15.2099H10.7503V8.58334H17.7503V8.61792H18.0003H18.4637C18.5415 9.06752 18.5837 9.52907 18.5837 10C18.5837 14.464 14.9643 18.0833 10.5003 18.0833C6.03631 18.0833 2.41699 14.464 2.41699 10C2.41699 5.53599 6.03631 1.91667 10.5003 1.91667Z"
                   fill="#FFC107"
                   stroke="#FFC107"
                   strokeWidth="0.5"
@@ -166,6 +163,10 @@ const Login = () => {
                 Sign in with Google
               </span>
             </a>
+            {/* forgot password link */}
+            <Link className="mt-10 text-indigo-500" to="/forgot-password">
+              Forgot Password?
+            </Link>
           </form>
         </div>
       </div>
