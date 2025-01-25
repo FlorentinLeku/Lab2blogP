@@ -13,7 +13,7 @@ const calculateEarnings = async () => {
     //Count new unique viewers since the last calculation
     const newViewsCount = post.viewers.length - post.lastCalculatedViewsCount;
     console.log(newViewsCount);
-    //Calculate earnings based on the number of new unique views
+    //Calculate earnings based on the number of new unique viewsa
     const earningsAmount = newViewsCount * RATE_PER_VIEW;
     console.log(earningsAmount);
     //Update this month earnings and total earnings

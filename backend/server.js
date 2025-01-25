@@ -12,7 +12,8 @@ const planRouter = require("./router/plan/planRouter");
 const stripePaymentRouter = require("./router/stripePayment/stripePaymentRouter");
 const calculateEarnings = require("./utils/calculateEarnings");
 const earningsRouter = require("./router/earnings/earningsRouter");
-calculateEarnings();
+const notificationRouter = require("./router/notification/notificationRouter");
+// calculateEarnings();
 //call the db
 connectDB();
 //Schedule the task to run at 23:59 on the last day of every month
@@ -53,6 +54,7 @@ app.use("/api/v1/categories", categoriesRouter);
 app.use("/api/v1/plans", planRouter);
 app.use("/api/v1/stripe", stripePaymentRouter);
 app.use("/api/v1/earnings", earningsRouter);
+app.use("/api/v1/notifications", notificationRouter);
 
 //!Not found
 app.use((req, res, next) => {

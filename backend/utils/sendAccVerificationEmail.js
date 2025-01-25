@@ -8,8 +8,8 @@ const sendAccVerificationEmail = async (to, token) => {
       port: 587,
       secure: false,
       auth: {
-        user: "",
-        pass: "",
+        user: process.env.GMAIL_USER,
+        pass: process.env.GMAIL_PASS,
       },
     });
     //create the message
