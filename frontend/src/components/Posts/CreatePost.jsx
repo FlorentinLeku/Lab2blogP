@@ -83,7 +83,7 @@ const CreatePost = () => {
   const isSuccess = postMutation.isSuccess;
   //Error
   const errorMsg = postMutation?.error?.response?.data?.message;
-
+  console.log(postMutation);
   return (
     <div className="flex items-center justify-center">
       <div className="max-w-md w-full bg-white rounded-lg shadow-md p-8 m-4">

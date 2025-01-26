@@ -55,6 +55,7 @@ app.use("/api/v1/plans", planRouter);
 app.use("/api/v1/stripe", stripePaymentRouter);
 app.use("/api/v1/earnings", earningsRouter);
 app.use("/api/v1/notifications", notificationRouter);
+app.use("/api/v1/comments", commentRouter);
 
 //!Not found
 app.use((req, res, next) => {

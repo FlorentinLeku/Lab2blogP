@@ -93,7 +93,12 @@ const postController = {
     //check for login user
     const userId = req.user ? req.user : null;
     //find the post
-    const postFound = await Post.findById(postId);
+    const postFound = await Post.findById(postId).populate({
+      path: "comments",
+      populate: {
+        path: "author",
+      },
+    });
     if (!postFound) {
       throw new Error("Post not found");
     }
@@ -125,7 +130,7 @@ const postController = {
       message: "Post deleted successfully",
     });
   }),
-  //! update post
+  //! pdate post
   update: asyncHandler(async (req, res) => {
     //get the post id from params
     const postId = req.params.postId;

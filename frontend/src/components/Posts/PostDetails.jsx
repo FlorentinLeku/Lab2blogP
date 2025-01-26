@@ -21,6 +21,8 @@ import {
   unfollowUserAPI,
   userProfileAPI,
 } from "../../APIServices/users/usersAPI";
+import { createCommentAPI } from "../../APIServices/comments/commentsAPI";
+import { useFormik } from "formik";
 const PostDetails = () => {
   const [comment, setComment] = useState("");
   // !Get the post id
@@ -77,7 +79,7 @@ const PostDetails = () => {
       .mutateAsync(targetId)
       .then(() => {
         //update the profile after following
-        refetchProfile();
+        // refetchProfile();
       })
       .catch((e) => console.log(e));
   };
@@ -112,7 +114,37 @@ const PostDetails = () => {
       })
       .catch((e) => console.log(e));
   };
-  console.log(data?.postFound?.likes?.length);
+
+  // user mutation
+  const commentMutation = useMutation({
+    mutationKey: ["create-comment"],
+    mutationFn: createCommentAPI,
+  });
+  // formik config
+  const formik = useFormik({
+    // initial data
+    initialValues: {
+      content: "",
+    },
+    // validation
+    validationSchema: Yup.object({
+      content: Yup.string().required("Comment content is required"),
+    }),
+    // submit
+    onSubmit: (values) => {
+      const data = {
+        content: values.content,
+        postId,
+      };
+      commentMutation
+        .mutateAsync(data)
+        .then(() => {
+          refetchPost();
+        })
+        .catch((e) => console.log(e));
+    },
+  });
+  console.log(commentMutation);
   return (
     <div className="container mx-auto p-4">
       <div className="bg-white rounded-lg shadow-lg p-5">
@@ -179,28 +211,27 @@ const PostDetails = () => {
           />
 
           {/* Edit delete icon */}
-          <div className="flex gap-2">
+          {/* <div className="flex gap-2">
             <FaEdit className="text-blue-500 cursor-pointer" />
             <FaTrashAlt className="text-red-500 cursor-pointer" />
-          </div>
+          </div> */}
         </div>
 
         {/* Comment Form */}
-        <form>
+        <form onSubmit={formik.handleSubmit}>
           <textarea
             className="w-full border border-gray-300 p-2 rounded-lg mb-2"
             rows="3"
             placeholder="Add a comment..."
             value={comment}
-            // onChange={(e) => setComment(e.target.value)}
-            // {...formik.getFieldProps("content")}
+            {...formik.getFieldProps("content")}
           ></textarea>
           {/* comment error */}
-          {/* {formik.touched.content && formik.errors.content && (
+          {formik.touched.content && formik.errors.content && (
             <div className="text-red-500 mb-4 mt-1">
               {formik.errors.content}
             </div>
-          )} */}
+          )}
           <button
             type="submit"
             className="bg-blue-500 text-white rounded-lg px-4 py-2"
@@ -211,7 +242,7 @@ const PostDetails = () => {
         {/* Comments List */}
         <div>
           <h2 className="text-xl font-bold mb-2">Comments:</h2>
-          {/* {postData?.comments?.map((comment, index) => (
+          {data?.postFound?.comments?.map((comment, index) => (
             <div key={index} className="border-b border-gray-300 mb-2 pb-2">
               <p className="text-gray-800">{comment.content}</p>
               <span className="text-gray-600 text-sm">
@@ -221,7 +252,7 @@ const PostDetails = () => {
                 {new Date(comment.createdAt).toLocaleDateString()}
               </small>
             </div>
-          ))} */}
+          ))}
         </div>
       </div>
     </div>
