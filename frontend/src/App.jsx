@@ -27,6 +27,7 @@ import AccountVerifiedComponent from "./components/User/AccountVerification";
 import RequestResetPassword from "./components/User/RequestResetPassword";
 import ResetPassword from "./components/User/ResetPassword";
 import Rankings from "./components/User/CreatorsRanking";
+import Notifications from "./components/Notification/NotificationLists";
 
 function App() {
   // ! use query
@@ -69,6 +70,15 @@ function App() {
               </AuthRoute>
             }
             path="create-post"
+          />
+          {/* Notifications */}
+          <Route
+            element={
+              <AuthRoute>
+                <Notifications />
+              </AuthRoute>
+            }
+            path="notifications"
           />
           {/* verify-account */}
           <Route
