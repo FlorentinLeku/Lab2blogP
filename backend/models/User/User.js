@@ -77,12 +77,13 @@ const userSchema = new mongoose.Schema(
 );
 //! Generate token for account verification
 userSchema.methods.generateAccVerificationToken = function () {
+  // Generate a secure random token
   const emailToken = crypto.randomBytes(20).toString("hex");
-  //assign the token to the user
-  this.passwordResetToken = crypto
+  // Hash the token for secure storage
+  this.accountVerificationToken = crypto
     .createHash("sha256")
-    .update(emailToken)
-    .digest("hex");
+    .update(emailToken) 
+    .digest("hex"); 
 
   this.accountVerificationExpires = Date.now() + 10 * 60 * 1000; //10 minutes
   return emailToken;

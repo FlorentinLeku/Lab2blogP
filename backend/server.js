@@ -13,6 +13,7 @@ const stripePaymentRouter = require("./router/stripePayment/stripePaymentRouter"
 const calculateEarnings = require("./utils/calculateEarnings");
 const earningsRouter = require("./router/earnings/earningsRouter");
 const notificationRouter = require("./router/notification/notificationRouter");
+const commentRouter = require("./router/comments/commentRouter");
 // calculateEarnings();
 //call the db
 connectDB();
