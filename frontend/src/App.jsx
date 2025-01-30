@@ -15,7 +15,7 @@ import { useQuery } from "@tanstack/react-query";
 import { isAuthenticated } from "./redux/slices/authSlices";
 import { useEffect } from "react";
 import AuthRoute from "./components/AuthRoute/AuthRoute";
-import UserDashbaord from "./components/User/UserDashboard";
+import UserDashboard from "./components/User/UserDashboard";
 import AccountSummaryDashboard from "./components/User/AccountSummary";
 import AddCategory from "./components/Category/AddCategory";
 import CreatePlan from "./components/Plans/CreatePlan";
@@ -52,7 +52,7 @@ function App() {
         {/* create post */}
         <Route element={<Home />} path="/" />
         {/* User dashboard */}
-        <Route element={<UserDashbaord />} path="/dashboard">
+        <Route element={<UserDashboard />} path="/dashboard">
           {/* Account summary  */}
           <Route
             element={
@@ -70,7 +70,25 @@ function App() {
               </AuthRoute>
             }
             path="create-post"
-          />
+            />
+            {/* my followings  */}
+            <Route
+              element={
+                <AuthRoute>
+                  <MyFollowing />
+                </AuthRoute>
+              }
+              path="my-followings"
+            />
+            {/* my followers  */}
+            <Route
+              element={
+                <AuthRoute>
+                  <MyFollowers />
+                </AuthRoute>
+              }
+              path="my-followers"
+            />
           {/* Notifications */}
           <Route
             element={
