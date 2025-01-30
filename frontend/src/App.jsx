@@ -28,6 +28,7 @@ import RequestResetPassword from "./components/User/RequestResetPassword";
 import ResetPassword from "./components/User/ResetPassword";
 import Rankings from "./components/User/CreatorsRanking";
 import Notifications from "./components/Notification/NotificationLists";
+import DashboardPosts from "./components/User/DashboardPosts"; 
 
 function App() {
   // ! use query
@@ -71,6 +72,16 @@ function App() {
             }
             path="create-post"
             />
+            {/* my posts */}
+          <Route
+            element={
+              <AuthRoute>
+                <DashboardPosts />
+              </AuthRoute>
+            }
+            path="posts"
+          />
+
             {/* my followings  */}
             <Route
               element={

@@ -143,14 +143,14 @@ const PostsList = () => {
                     <img
                       className="absolute inset-0 w-full h-full object-cover rounded-2xl"
                       src={post?.image?.path}
-                      alt={post?.description}
+                      alt={post?._id}
                     />
                   </div>
                   <div className="pt-6 pb-3 px-4">
                     <div
                       className="rendered-html-content mb-2"
                       dangerouslySetInnerHTML={{
-                        __html: post?.description,
+                        __html:trunctateString (post?.description, 200),
                       }}
                     />
                     <div className="flex flex-wrap items-center gap-3">
