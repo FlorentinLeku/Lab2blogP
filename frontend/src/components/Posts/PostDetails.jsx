@@ -51,7 +51,7 @@ const PostDetails = () => {
   const userId = profileData?.user?._id;
   //Get if the user/login is following the user
   const isFollowing = profileData?.user?.following?.find(
-    (user) => user?.toString() === targetId?.toString()
+    (user) => user?._id?.toString() === targetId?.toString()
   );
 
   //---Follow & unfollow mutation
