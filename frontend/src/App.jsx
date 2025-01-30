@@ -89,6 +89,15 @@ function App() {
               }
               path="my-followers"
             />
+             {/* my earnings  */}
+          <Route
+            element={
+              <AuthRoute>
+                <MyEarnings />
+              </AuthRoute>
+            }
+            path="my-earnings"
+          />
           {/* Notifications */}
           <Route
             element={

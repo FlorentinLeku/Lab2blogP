@@ -7,5 +7,11 @@ const earningsRouter = express.Router();
 
 //----lists all earnings----
 earningsRouter.get("/", earningsController.fetchAllEarnings);
+//------User earnings-----
+earningsRouter.get(
+  "/my-earnings",
+  isAuthenticated,
+  earningsController.getUserEarnings
+);
 
 module.exports = earningsRouter;

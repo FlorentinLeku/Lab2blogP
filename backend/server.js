@@ -14,7 +14,7 @@ const calculateEarnings = require("./utils/calculateEarnings");
 const earningsRouter = require("./router/earnings/earningsRouter");
 const notificationRouter = require("./router/notification/notificationRouter");
 const commentRouter = require("./router/comments/commentRouter");
-// calculateEarnings();
+calculateEarnings();
 //call the db
 connectDB();
 //Schedule the task to run at 23:59 on the last day of every month
