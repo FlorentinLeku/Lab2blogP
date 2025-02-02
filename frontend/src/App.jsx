@@ -15,7 +15,7 @@ import { useQuery } from "@tanstack/react-query";
 import { isAuthenticated } from "./redux/slices/authSlices";
 import { useEffect } from "react";
 import AuthRoute from "./components/AuthRoute/AuthRoute";
-import UserDashboard from "./components/User/UserDashboard";
+import UserDashbaord from "./components/User/UserDashboard";
 import AccountSummaryDashboard from "./components/User/AccountSummary";
 import AddCategory from "./components/Category/AddCategory";
 import CreatePlan from "./components/Plans/CreatePlan";
@@ -28,7 +28,13 @@ import RequestResetPassword from "./components/User/RequestResetPassword";
 import ResetPassword from "./components/User/ResetPassword";
 import Rankings from "./components/User/CreatorsRanking";
 import Notifications from "./components/Notification/NotificationLists";
-import DashboardPosts from "./components/User/DashboardPosts"; 
+import MyFollowing from "./components/User/MyFollowing";
+import MyFollowers from "./components/User/MyFollowers";
+import MyEarnings from "./components/User/MyEarnings";
+import DashboardPosts from "./components/User/DashboardPosts";
+import Settings from "./components/User/SettingsPage";
+import AddEmailComponent from "./components/User/UpdateEmail";
+import UploadProfilePic from "./components/User/UploadProfilePic";
 
 function App() {
   // ! use query
@@ -53,7 +59,7 @@ function App() {
         {/* create post */}
         <Route element={<Home />} path="/" />
         {/* User dashboard */}
-        <Route element={<UserDashboard />} path="/dashboard">
+        <Route element={<UserDashbaord />} path="/dashboard">
           {/* Account summary  */}
           <Route
             element={
@@ -71,8 +77,8 @@ function App() {
               </AuthRoute>
             }
             path="create-post"
-            />
-            {/* my posts */}
+          />
+          {/* my posts */}
           <Route
             element={
               <AuthRoute>
@@ -81,26 +87,53 @@ function App() {
             }
             path="posts"
           />
-
-            {/* my followings  */}
-            <Route
-              element={
-                <AuthRoute>
-                  <MyFollowing />
-                </AuthRoute>
-              }
-              path="my-followings"
-            />
-            {/* my followers  */}
-            <Route
-              element={
-                <AuthRoute>
-                  <MyFollowers />
-                </AuthRoute>
-              }
-              path="my-followers"
-            />
-             {/* my earnings  */}
+          {/* update post */}
+          <Route
+            element={
+              <AuthRoute>
+                <UpdatePost />
+              </AuthRoute>
+            }
+            path="update-post/:postId"
+          />
+          
+          {/* settings page */}
+          <Route
+            element={
+              <AuthRoute>
+                <Settings />
+              </AuthRoute>
+            }
+            path="settings"
+          />
+          {/* update email */}
+          <Route
+            element={
+              <AuthRoute>
+                <AddEmailComponent />
+              </AuthRoute>
+            }
+            path="add-email"
+          />
+          {/* my followings  */}
+          <Route
+            element={
+              <AuthRoute>
+                <MyFollowing />
+              </AuthRoute>
+            }
+            path="my-followings"
+          />
+          {/* my followers  */}
+          <Route
+            element={
+              <AuthRoute>
+                <MyFollowers />
+              </AuthRoute>
+            }
+            path="my-followers"
+          />
+          {/* my earnings  */}
           <Route
             element={
               <AuthRoute>
@@ -109,6 +142,7 @@ function App() {
             }
             path="my-earnings"
           />
+
           {/* Notifications */}
           <Route
             element={

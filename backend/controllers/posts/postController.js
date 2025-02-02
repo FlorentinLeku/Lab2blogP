@@ -142,7 +142,7 @@ const postController = {
     //update
     const postUpdted = await Post.findByIdAndUpdate(
       postId,
-      { title: req.body.title, description: req.body.description },
+      { description: req.body.description, image: req.file },
       {
         new: true,
       }

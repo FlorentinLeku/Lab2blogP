@@ -138,6 +138,8 @@ const userController = {
     const userId = req.user;
     //2. Get the user to follow (req.params)
     const followId = req.params.followId;
+    // Check if the userId and followId are the same
+
     //3. Update the users followers and following arrays
     //Udate the user who is following a user
     await User.findByIdAndUpdate(
@@ -281,6 +283,41 @@ const userController = {
     //resave the user
     await userFound.save();
     res.json({ message: "Password successfully reset" });
+  }),
+  // update email
+  updateEmail: asyncHandler(async (req, res) => {
+    //email
+    const { email } = req.body;
+    //Find the user
+    const user = await User.findById(req.user);
+    //update the user email
+    user.email = email;
+    user.isEmailVerified = false;
+    //save the user
+    await user.save();
+    //use the method from the model
+    const token = await user.generateAccVerificationToken();
+    //send the verification email
+    sendAccVerificationEmail(user?.email, token);
+    //send the response
+    res.json({
+      message: `Account verification email sent to ${user?.email} token expires in 10 minutes`,
+    });
+  }),
+  //! Update profile picture
+  updateProfilePic: asyncHandler(async (req, res) => {
+    //Find the user
+    await User.findByIdAndUpdate(
+      req.user,
+      {
+        $set: { profilePicture: req.file },
+      },
+      { new: true }
+    );
+    //send the response
+    res.json({
+      message: "Profile picture updated successfully",
+    });
   }),
 };
 

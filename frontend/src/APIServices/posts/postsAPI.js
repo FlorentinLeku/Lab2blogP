@@ -1,3 +1,4 @@
+
 import axios from "axios";
 //create that must return a promise
 const BASE_URL = "http://localhost:5000/api/v1/posts";
@@ -11,13 +12,12 @@ export const createPostAPI = async (postData) => {
   return response.data;
 };
 //!update post api
-export const updatePostAPI = async (postData) => {
+export const updatePostAPI = async ({ formData, postId }) => {
   const response = await axios.put(
-    `${BASE_URL}/${postData?.postId}`,
-    {
-      title: postData.title,
-      description: postData.description,
-    },
+    `${BASE_URL}/${postId}`,
+
+    formData,
+
     {
       withCredentials: true,
     }

@@ -99,6 +99,20 @@ export const sendEmailVerificatonTokenAPI = async () => {
 
   return response.data;
 };
+// ! updateEmailAPI
+export const updateEmailAPI = async (email) => {
+  const response = await axios.put(
+    `${BASE_URL}/users/update-email`,
+    {
+      email,
+    },
+    {
+      withCredentials: true,
+    }
+  );
+
+  return response.data;
+};
 
 // !Verify user account
 export const verifyUserAccountAPI = async (verifyToken) => {
@@ -126,6 +140,7 @@ export const forgotPasswordAPI = async (email) => {
 
   return response.data;
 };
+
 
 // !reset password
 export const resetPasswordAPI = async (data) => {
