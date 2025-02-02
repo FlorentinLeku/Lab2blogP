@@ -7,13 +7,16 @@ import {
   FaThumbsUp,
   FaThumbsDown,
   FaFlag,
+  FaCommentDots,
 } from "react-icons/fa";
+
 import { Link } from "react-router-dom";
 import {
   sendEmailVerificatonTokenAPI,
   userProfileAPI,
 } from "../../APIServices/users/usersAPI";
 import AlertMessage from "../Alert/AlertMessage";
+import { getMyEarningsAPI } from "../../APIServices/earnings/earningsAPI";
 
 const AccountSummaryDashboard = () => {
   const { data, isLoading, isError, error } = useQuery({
@@ -43,25 +46,30 @@ const AccountSummaryDashboard = () => {
 
   //there is a view count in the post object so calculate the total views
 
-  const totalViews = 0;
+  //initial counters
 
-  //calculate total likes but likes is an array
+  let totalViews = 0;
+  let totalLikes = 0;
+  let totalComments = 0;
+  let totalDislikes = 0;
 
-  const totalLikes = 0;
+  //loop through the users posts to update the initial counters
 
-  //total posts
+  data?.user?.posts?.forEach((post) => {
+    totalViews += post.viewers.length;
+    totalLikes += post.likes.length;
+    totalDislikes += post.dislikes.length;
+    totalComments += post.comments.length;
+  });
 
-  //calculate total comments
+  const { data: earnings } = useQuery({
+    queryKey: ["my-earnings"],
+    queryFn: getMyEarningsAPI,
+  });
 
-  const totalComments = 0;
-
-  //calculate total dislikes
-
-  const totalDislikes = 0;
-
-  //total earnings
-
-  const totalEarnings = 0;
+  //Calc total amount
+  const totalEarnings = earnings?.reduce((acc, curr) => acc + curr.amount, 0);
+  console.log(totalEarnings);
   const stats = [
     {
       icon: <FaEye />,
@@ -102,13 +110,13 @@ const AccountSummaryDashboard = () => {
     {
       icon: <FaFlag />,
       label: "Posts",
-      value: userPosts?.length || 0,
+      value: userPosts || 0,
       bgColor: "bg-pink-500",
     },
     {
-      icon: <FaUsers />,
-      label: "Ranking",
-      value: "1st",
+      icon: <FaCommentDots />,
+      label: "Comments",
+      value: totalComments,
       bgColor: "bg-teal-500",
     },
   ];

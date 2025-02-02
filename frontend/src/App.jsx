@@ -96,7 +96,15 @@ function App() {
             }
             path="update-post/:postId"
           />
-          
+          {/* upload profile pic */}
+          <Route
+            element={
+              <AuthRoute>
+                <UploadProfilePic />
+              </AuthRoute>
+            }
+            path="upload-profile-photo"
+          />
           {/* settings page */}
           <Route
             element={

@@ -88,7 +88,7 @@ export const unfollowUserAPI = async (userId) => {
   return response.data;
 };
 // ! send Email verification token
-export const sendEmailVerificatonTokenAPI = async () => {
+export const sendEmailVerificationTokenAPI = async () => {
   const response = await axios.put(
     `${BASE_URL}/users/account-verification-email`,
     {},
@@ -133,6 +133,18 @@ export const forgotPasswordAPI = async (email) => {
     {
       email,
     },
+    {
+      withCredentials: true,
+    }
+  );
+
+  return response.data;
+};
+// !upload profile pic
+export const uploadProfilePicAPI = async (formData) => {
+  const response = await axios.put(
+    `${BASE_URL}/users/upload-profile-picture`,
+    formData,
     {
       withCredentials: true,
     }
