@@ -78,6 +78,15 @@ function App() {
             }
             path="create-post"
           />
+          {/* lists users */}
+          <Route
+            element={
+              <AuthRoute>
+                <UsersList />
+              </AuthRoute>
+            }
+            path="user"
+          />
           {/* my posts */}
           <Route
             element={

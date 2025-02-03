@@ -137,7 +137,7 @@ const AccountSummaryDashboard = () => {
        font-bold text-2xl text-gray-800 mb-4
       "
       >
-        Welcome Back: {data?.user?.username}
+        Welcome Back: {data?.user?.username} - <span>{data?.user?.accountType}</span>
       </p>
       {/* display account verification status */}
       {verificationTokenMutation.isPending ? (

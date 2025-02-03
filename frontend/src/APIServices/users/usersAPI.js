@@ -88,7 +88,7 @@ export const unfollowUserAPI = async (userId) => {
   return response.data;
 };
 // ! send Email verification token
-export const sendEmailVerificationTokenAPI = async () => {
+export const sendEmailVerificatonTokenAPI = async () => {
   const response = await axios.put(
     `${BASE_URL}/users/account-verification-email`,
     {},
@@ -141,7 +141,7 @@ export const forgotPasswordAPI = async (email) => {
   return response.data;
 };
 // !upload profile pic
-export const uploadProfilePicAPI = async (formData) => {
+export const uplaodProfilePicAPI = async (formData) => {
   const response = await axios.put(
     `${BASE_URL}/users/upload-profile-picture`,
     formData,
@@ -153,13 +153,38 @@ export const uploadProfilePicAPI = async (formData) => {
   return response.data;
 };
 
-
 // !reset password
 export const resetPasswordAPI = async (data) => {
   const response = await axios.post(
     `${BASE_URL}/users/reset-password/${data?.verifyToken}`,
     {
       password: data?.password,
+    },
+    {
+      withCredentials: true,
+    }
+  );
+
+  return response.data;
+};
+
+//list all users
+export const listUsersAPI = async (email) => {
+  const response = await axios.get(
+    `${BASE_URL}/users/lists`,
+    {
+      withCredentials: true,
+    }
+  );
+  return response.data;
+};
+
+// !toggle blocking
+export const toggleUserBlockAPI = async (data) => {
+  const response = await axios.put(
+    data?.actionURL,
+    {
+      userId: data?.userId,
     },
     {
       withCredentials: true,

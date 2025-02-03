@@ -1,5 +1,6 @@
 const mongoose = require("mongoose");
 const crypto = require("crypto");
+const { type } = require("os");
 const userSchema = new mongoose.Schema(
   {
     // Basic user information
@@ -18,6 +19,10 @@ const userSchema = new mongoose.Schema(
     password: {
       type: String,
       required: false, // Set to false if password is not mandatory
+    },
+    role:{
+      type: String,
+      default: 'user',
     },
     googleId: {
       type: String,
@@ -68,6 +73,16 @@ const userSchema = new mongoose.Schema(
     payments: [{ type: mongoose.Schema.Types.ObjectId, ref: "Payment" }],
     hasSelectedPlan: { type: Boolean, default: false },
     lastLogin: { type: Date, default: Date.now },
+    //Account type
+    accountType:{
+      type: String,
+      default: "Basic",
+    },
+
+    isBlocked:{
+      type: Boolean,
+      default: false,
+    },
 
     // User relationships
     followers: [{ type: mongoose.Schema.Types.ObjectId, ref: "User" }], // Link to other users
@@ -77,13 +92,12 @@ const userSchema = new mongoose.Schema(
 );
 //! Generate token for account verification
 userSchema.methods.generateAccVerificationToken = function () {
-  // Generate a secure random token
   const emailToken = crypto.randomBytes(20).toString("hex");
-  // Hash the token for secure storage
-  this.accountVerificationToken = crypto
+  //assign the token to the user
+  this.passwordResetToken = crypto
     .createHash("sha256")
-    .update(emailToken) 
-    .digest("hex"); 
+    .update(emailToken)
+    .digest("hex");
 
   this.accountVerificationExpires = Date.now() + 10 * 60 * 1000; //10 minutes
   return emailToken;
@@ -100,6 +114,18 @@ userSchema.methods.generatePasswordResetToken = function () {
   this.passwordResetExpires = Date.now() + 10 * 60 * 1000; //10 minutes
   return emailToken;
 };
+//Method to update user accountType
+userSchema.methods.updateAccountType = function (){
+  //get the total posts
+  const postCount = this.posts.length;
+  if(postCount >= 50){
+    this.accountType = 'Premium'
+  }else if(postCount >= 10){
+    this.accountType = 'Standard'
+  }else{
+    this.accountType = 'Basic'
+  }
+}
 const User = mongoose.model("User", userSchema);
 
 module.exports = User;

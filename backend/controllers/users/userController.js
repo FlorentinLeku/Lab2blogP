@@ -319,6 +319,51 @@ const userController = {
       message: "Profile picture updated successfully",
     });
   }),
+
+  //Block user
+  blockUser: asyncHandler(async (req, res) => {
+    //FInd the user by id
+    const { userId } = req.body;
+    const user = await User.findByIdAndUpdate(
+      userId,
+      { isBlocked: true },
+      { new: true }
+    );
+    if(!user){
+      res.status(404).json({message: 'User not found'})
+    }else{
+      res.json({
+        message: 'User successfully blocked!',
+        username: user.username,
+        isBlocked: user.isBlocked,
+      });
+    }
+  }),
+
+    //UnBlock user
+    unblockUser: asyncHandler(async (req, res) => {
+      //FInd the user by id
+      const { userId } = req.body;
+      const user = await User.findByIdAndUpdate(
+        userId,
+        { isBlocked: false },
+        { new: true }
+      );
+      if(!user){
+        res.status(404).json({message: 'User not found'})
+      }else{
+        res.json({
+          message: 'User successfully unblocked!',
+          username: user.username,
+          isBlocked: user.isBlocked,
+        });
+      }
+    }),
+    //list users
+    listUsers: asyncHandler(async (req, res) => {
+      const users = await User.find();
+      res.json(users);
+    }),
 };
 
 module.exports = userController;

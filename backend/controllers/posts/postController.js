@@ -32,7 +32,10 @@ const postController = {
     await categoryFound.save();
     //push the posts into user
     userFound.posts.push(postCreated?._id);
+    //Update the user account type
+    userFound.updateAccountType();
     await userFound.save();
+    console.log(userFound);
     //Create notification
     await Notification.create({
       userId: req.user,

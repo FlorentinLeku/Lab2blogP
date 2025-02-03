@@ -8,7 +8,7 @@ import { FaTimesCircle } from "react-icons/fa";
 import { useMutation, useQuery } from "@tanstack/react-query";
 
 import AlertMessage from "../Alert/AlertMessage";
-import { uploadProfilePicAPI } from "../../APIServices/users/usersAPI";
+import { uplaodProfilePicAPI } from "../../APIServices/users/usersAPI";
 
 const UploadProfilePic = () => {
   // state for wysiwg
@@ -20,7 +20,7 @@ const UploadProfilePic = () => {
   // post mutation
   const mutation = useMutation({
     mutationKey: ["upload-profile-pic"],
-    mutationFn: uploadProfilePicAPI,
+    mutationFn: uplaodProfilePicAPI,
   });
   const formik = useFormik({
     // initial data
