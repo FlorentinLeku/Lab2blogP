@@ -68,4 +68,4 @@ const UsersList = () => {
   );
 };
 
-export default Register;
+export default UsersList;

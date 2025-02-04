@@ -3,10 +3,10 @@ const asyncHandler = require("express-async-handler");
 
 const isBlocked = asyncHandler(async (req, res, next) => {
   try {
-    //get the login
+    
     const user = await User.findById(req.user);
-    //check user plan
-    if (!user?.isBlocked) {
+    
+    if (user?.isBlocked) {
       return res.status(401).json({
         message: "Account is blocked, plase contact admin",
       });

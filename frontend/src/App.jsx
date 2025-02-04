@@ -35,7 +35,7 @@ import DashboardPosts from "./components/User/DashboardPosts";
 import Settings from "./components/User/SettingsPage";
 import AddEmailComponent from "./components/User/UpdateEmail";
 import UploadProfilePic from "./components/User/UploadProfilePic";
-
+import UsersList from "./components/Templates/Users";
 function App() {
   // ! use query
   const { isError, isLoading, data, error, isSuccess, refetch } = useQuery({
@@ -85,7 +85,7 @@ function App() {
                 <UsersList />
               </AuthRoute>
             }
-            path="user"
+            path="users"
           />
           {/* my posts */}
           <Route

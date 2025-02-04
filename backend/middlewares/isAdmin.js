@@ -3,9 +3,9 @@ const asyncHandler = require("express-async-handler");
 
 const isAdmin = asyncHandler(async (req, res, next) => {
   try {
-    //get the login
+    
     const user = await User.findById(req.user);
-    //check user plan
+    
     if (!user?.role !== 'admin') {
       return res.status(401).json({
         message: "Access denied, admin only",
